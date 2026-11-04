@@ -33,4 +33,4 @@ Git push → GitHub webhook → Jenkins → Maven build & test → Docker image 
 - Stored the GitHub SSH key in Jenkins credentials instead of in the code
 - Troubleshot failed builds from the Jenkins console output
 
-## Screenshots
+
