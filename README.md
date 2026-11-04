@@ -1,36 +1,20 @@
-# Banking Microservice CI/CD Pipeline
+# Banking Web App: CI/CD Pipeline Project
 
-A CI/CD pipeline for a Spring Boot banking microservice, built as a DevOps capstone project. The goal was to move from a slow-to-release monolith to a microservice that can be built, tested and deployed automatically.
+Banking microservice built and deployed as part of the DevOps & Cloud Computing course at Paper Live Learning. Forked from the course project (PL-DevOps-Cloud-2705/BankingWebApp). The goal was to move from a monolith to a microservice that is built, containerized and deployed automatically.
 
-## Pipeline flow
+## What I did
+- Set up a Jenkins pipeline on AWS EC2: GitHub webhook, Maven build, Docker image build and push, deployment
+- Containerized the app using the included `Dockerfile`
+- Deployed it to a Kubernetes cluster (kubeadm, 3 nodes) using `bankingdeploy.yaml`, exposed with a NodePort service
+- Fixed real issues: Java version mismatch (Jenkins on Java 21, Maven build on Java 17), low memory on small EC2 servers (added swap), and Kubernetes node join errors
 
-```
-Git push → GitHub webhook → Jenkins → Maven build & test → Docker image → Docker Hub → Deploy to AWS EC2
-```
-
-## Tools used
-- **Source control:** Git, GitHub
-- **CI/CD:** Jenkins (Declarative Pipeline / Jenkinsfile)
-- **Build:** Maven (`clean package` creates the JAR)
-- **Containers:** Docker (Dockerfile, Docker Hub registry)
-- **Orchestration:** Kubernetes (NodePort service)
-- **Cloud:** AWS EC2 (Ubuntu)
-
-## How it works
-1. A developer pushes code to GitHub, and a **webhook** triggers the Jenkins pipeline.
-2. Jenkins builds and tests the code with **Maven**. If a stage fails, the pipeline stops and shows the error in the console output.
-3. A **Docker image** is built from the Dockerfile and pushed to **Docker Hub**.
-4. The application is deployed to **AWS EC2**, and Kubernetes runs the containers.
+## Tools
+Git/GitHub, Jenkins, Maven, Docker, Kubernetes, AWS EC2 (Ubuntu), Linux
 
 ## Repository contents
-- `Jenkinsfile`: pipeline definition
-- `Dockerfile`: image for the Spring Boot app (Java 21 JRE base image)
-- `k8s/`: Kubernetes Deployment and Service YAML files
+- `Dockerfile`: image definition
+- `bankingdeploy.yaml`: Kubernetes deployment
+- `pom.xml`, `src/`: Maven build and application code
 
-## What I learned
-- Fixed a Java version mismatch between Jenkins (Java 21) and the Maven build (Java 17)
-- Handled low memory on small EC2 servers by configuring swap
-- Stored the GitHub SSH key in Jenkins credentials instead of in the code
-- Troubleshot failed builds from the Jenkins console output
-
-
+## Pipeline flow
+`Git push → Jenkins → Maven build → Docker image → Deploy to Kubernetes`
